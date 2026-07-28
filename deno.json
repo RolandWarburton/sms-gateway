@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json",
+  "tasks": {
+    "dev": "deno run --watch --allow-net --allow-env --allow-read --allow-write src/main.ts",
+    "start": "deno run --allow-net --allow-env --allow-read --allow-write src/main.ts",
+    "test": "deno test --allow-read --allow-write --allow-env",
+    "check": "deno check src/main.ts web/main.tsx",
+    "build:web": "deno bundle --platform=browser --minify -o web/dist/app.js web/main.tsx && cp web/index.html web/app.css web/dist/",
+    "dev:web": "deno bundle --platform=browser --watch -o web/dist/app.js web/main.tsx",
+    "fmt": "deno fmt",
+    "lint": "deno lint"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@^1.0.19",
+    "@std/http": "jsr:@std/http@^1.0.13",
+    "@tanstack/preact-query": "npm:@tanstack/preact-query@^5.101.4",
+    "jose": "npm:jose@^5.9.6",
+    "preact": "npm:preact@^10.29.7",
+    "preact/": "npm:/preact@^10.29.7/"
+  },
+  "test": {
+    "include": ["src/**/*_test.ts"]
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "lib": ["deno.window", "dom", "dom.iterable"],
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "exactOptionalPropertyTypes": true
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"]
+    }
+  },
+  "fmt": {
+    "lineWidth": 80
+  },
+  "exclude": ["*.db", "*.db-shm", "*.db-wal", "web/dist"]
+}

@@ -1,0 +1,9 @@
+.env
+.git
+*.db
+*.db-shm
+*.db-wal
+scripts
+README.md
+CLAUDE.md
+web/dist

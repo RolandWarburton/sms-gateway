@@ -1,0 +1,16 @@
+services:
+  sms-gateway:
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.smsgateway.rule=Host(`${DOMAIN:?set DOMAIN in .env}`)"
+      - "traefik.http.routers.smsgateway.entrypoints=websecure"
+      - "traefik.http.routers.smsgateway.tls=true"
+      - "traefik.http.routers.smsgateway.tls.certresolver=letsencrypt"
+      - "traefik.http.services.smsgateway.loadbalancer.server.port=${PORT:-8080}"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 32M

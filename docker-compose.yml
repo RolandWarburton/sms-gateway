@@ -1,0 +1,22 @@
+services:
+  sms-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sms-gateway:latest
+    container_name: sms-gateway
+    env_file:
+      - .env
+    environment:
+      - DB_PATH=/data/sms.db
+    volumes:
+      - sms_data:/data
+    networks:
+      - services
+
+networks:
+  services:
+    external: true
+
+volumes:
+  sms_data:
