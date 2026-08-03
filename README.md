@@ -16,18 +16,18 @@ See the [documentation](https://docs.sms-gate.app) for the app itself.
 | GET    | everything else     | Built frontend, if `FRONTEND_DIR` is set.       |
 
 The write path and the read path are guarded differently: `/webhook` by the
-shared HMAC signing key, `/api/*` by an OIDC ID token. `/api/config` is public 
+shared HMAC signing key, `/api/*` by an OIDC ID token. `/api/config` is public
 to grab the issuer URL and client id for OIDC.
 
 ### `GET /api/messages`
 
-| Param    | Default       | Meaning                                    |
-| -------- | ------------- | ------------------------------------------ |
-| `q`      | empty         | Substring match on sender or message body. |
-| `sort`   | `received_at` | One of `received_at`, `sender`.            |
-| `dir`    | `desc`        | `asc` or `desc`.                           |
-| `limit`  | `100`         | Clamped to 1–500.                          |
-| `offset` | `0`           | Row offset for pagination.                 |
+| Param    | Default       | Meaning                                          |
+| -------- | ------------- | ------------------------------------------------ |
+| `q`      | empty         | Substring match on sender, recipient or message. |
+| `sort`   | `received_at` | One of `received_at`, `sender`.                  |
+| `dir`    | `desc`        | `asc` or `desc`.                                 |
+| `limit`  | `100`         | Clamped to 1–500.                                |
+| `offset` | `0`           | Row offset for pagination.                       |
 
 Returns `{ messages, total, limit, offset }`, where `total` counts every row
 matching `q` regardless of paging. Out-of-range and unrecognised values are
