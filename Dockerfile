@@ -1,5 +1,8 @@
 FROM denoland/deno:2.9.2
 
+# Add for curl/wget
+COPY --from=busybox:1.37-musl /bin/busybox /usr/local/bin/busybox
+
 WORKDIR /app
 
 # Cache dependencies first so source edits don't re-resolve the module graph.
