@@ -4,7 +4,8 @@
 // where src/auth.ts verifies it against Dex's JWKS. Nothing here is trusted by
 // the server, so the only job of this module is to obtain a token and hand it
 // over. The token lives in sessionStorage: it dies with the tab, and Dex issues
-// 24h tokens, so there is no refresh/silent-renew machinery.
+// 7d tokens (expiry.idTokens in dex/config.yaml), so there is no refresh/
+// silent-renew machinery.
 
 import type { AppConfig } from "./types.ts";
 
