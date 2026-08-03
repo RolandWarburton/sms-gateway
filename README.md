@@ -4,6 +4,8 @@ Receives incoming-SMS webhooks from the
 [SMS Gateway for Android](https://sms-gate.app/) app and stores them in SQLite.
 See the [documentation](https://docs.sms-gate.app) for the app itself.
 
+![The web UI listing received messages, with search, sorting, and a page-size selector](images/demo.png)
+
 ## Endpoints
 
 | Method | Path                | Notes                                           |
