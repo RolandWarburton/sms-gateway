@@ -3,9 +3,10 @@
 // The resulting ID token is sent to /api/* as `Authorization: Bearer <jwt>`,
 // where src/auth.ts verifies it against Dex's JWKS. Nothing here is trusted by
 // the server, so the only job of this module is to obtain a token and hand it
-// over. The token lives in sessionStorage: it dies with the tab, and Dex issues
-// 7d tokens (expiry.idTokens in dex/config.yaml), so there is no refresh/
-// silent-renew machinery.
+// over. The token lives in localStorage so it survives new tabs and browser
+// restarts, and Dex issues 7d tokens (expiry.idTokens in dex/config.yaml), so
+// there is no refresh/silent-renew machinery. The PKCE verifier and state stay in
+// sessionStorage: they only need to outlive the redirect to Dex and back.
 
 import type { AppConfig } from "./types.ts";
 
@@ -52,17 +53,17 @@ function isExpired(jwt: string): boolean {
 }
 
 export function getToken(): string | null {
-  const token = sessionStorage.getItem(TOKEN_KEY);
+  const token = localStorage.getItem(TOKEN_KEY);
   if (!token) return null;
   if (isExpired(token)) {
-    sessionStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(TOKEN_KEY);
     return null;
   }
   return token;
 }
 
 export function clearToken(): void {
-  sessionStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(TOKEN_KEY);
 }
 
 export async function fetchConfig(): Promise<AppConfig> {
@@ -140,7 +141,7 @@ export async function completeLogin(config: AppConfig): Promise<string | null> {
   const body = await res.json() as { id_token?: string };
   if (!body.id_token) return "Dex returned no id_token.";
 
-  sessionStorage.setItem(TOKEN_KEY, body.id_token);
+  localStorage.setItem(TOKEN_KEY, body.id_token);
   // Drop ?code= from the address bar so a reload doesn't retry a spent code.
   history.replaceState(null, "", "/");
   return null;
